@@ -8,14 +8,22 @@ constructor() {
     this.state = {
       timerIDS: []
     }
-}
+  }
+  
+  componentDidMount() {
+    this.handleAddTimer()
+  }
 
-  handleAddTimer =()=> {
-    let timerIDS = this.state.timerIDS
+  removeTimer = id => {
+      this.setState({
+        timerIDS: this.state.timerIDS.filter(timer_id => timer_id !== id)
+      })
+    }
+
+  handleAddTimer = () => {
     this.setState({
-      timerIDS: [...timerIDS, Math.floor(Math.random()*1000)]
+      timerIDS: [...this.state.timerIDS, Math.floor(Math.random()*1000)]
     })
-    // console.log(this.state.timerIDS)
   }
 
   render() {
@@ -23,7 +31,7 @@ constructor() {
       <div className="App">
         <h1>Timer</h1>
           <button onClick={this.handleAddTimer}>Add New Timer</button>
-          <div>{this.state.timerIDS.map(id => <Timer id={id} key={id}/>)}</div>
+          <div>{this.state.timerIDS.map(id => <Timer id={id} key={id} removeTimer={this.removeTimer}/>)}</div>
       </div>
     );
   }
@@ -31,3 +39,4 @@ constructor() {
 
 
 export default App;
+
